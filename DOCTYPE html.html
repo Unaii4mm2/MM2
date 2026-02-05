@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>MM2 Aim Trainer 2 Values</title>
+
+    <style>
+        body { margin: 0; font-family: Arial, Helvetica, sans-serif; background-color: #0f1115; color: #fff; }
+        header { background-color: #151821; padding: 20px; text-align: center; border-bottom: 3px solid #ffcc00; }
+        header h1 { margin: 0; color: #90d5ff; font-size: 32px; }
+        header p { margin-top: 6px; color: #bdbdbd; }
+        .container { width: 90%; max-width: 1200px; margin: 30px auto; }
+        .search-box { margin-bottom: 15px; }
+        .search-box input { width: 100%; padding: 12px; font-size: 16px; border-radius: 6px; border: none; outline: none; }
+        button { padding: 10px 15px; margin-bottom: 20px; border: none; border-radius: 6px; background-color: #ffcc00; color: #000; font-weight: bold; cursor: pointer; }
+        button:hover { background-color: #e6b800; }
+        table { width: 100%; border-collapse: collapse; background-color: #1a1d29; }
+        thead { background-color: #23273a; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #2f3350; }
+        th { color: #ffcc00; text-transform: uppercase; font-size: 14px; }
+        tr:hover { background-color: #2a2f4a; }
+        .rarity { font-weight: bold; }
+        .godly { color: #ff4d4d; }
+        .ancient { color: #ff9f1c; }
+        .unique { color: #9b59ff; }
+        footer { text-align: center; padding: 20px; margin-top: 40px; color: #888; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>MM2 Aim Trainer 2 Values</h1>
+    <p>Fan-made values list · Valores ordenados</p>
+</header>
+
+<div class="container">
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Buscar arma..." onkeyup="buscarArma()">
+    </div>
+
+    <button onclick="actualizarValores()">Actualizar valores</button>
+
+    <table id="valuesTable">
+        <thead>
+            <tr>
+                <th>Arma</th>
+                <th>Rareza</th>
+                <th>Valor</th>
+                <th>Demanda</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+
+<footer>
+    <p>Proyecto fan · Valores simulados</p>
+</footer>
+
+<script>
+    let weapons = [
+        // UNIQUE
+        { name: "Corrupt", rarity: "Unique", value: 15000, demand: "Extrema", status: "Bajando" },
+
+        // ANCIENT
+        { name: "Gingerscope", rarity: "Ancient", value: 18000, demand: "Extrema", status: "Subiendo" },
+        { name: "Chroma Gingerscope", rarity: "Ancient", value: 10000, demand: "Muy alta", status: "Estable" },
+        { name: "Harvester", rarity: "Ancient", value: 8200, demand: "Muy alta", status: "Subiendo" },
+        { name: "Traveler's Axe", rarity: "Ancient", value: 5200, demand: "Muy alta", status: "Subiendo" },
+        { name: "Icepiercer", rarity: "Ancient", value: 7800, demand: "Alta", status: "Estable" },
+        { name: "Chroma Traveler's Axe", rarity: "Ancient", value: 4800, demand: "Muy alta", status: "Estable" },
+        { name: "Constellation Knife", rarity: "Ancient", value: 5000, demand: "Muy alta", status: "Subiendo-Estable" },
+        { name: "Constellation Gun", rarity: "Ancient", value: 4800, demand: "Muy alta", status: "Subiendo-Estable" },
+
+        // GODLIES EXISTENTES
+        { name: "Evergreen Knife", rarity: "Godly", value: 4520, demand: "Muy alta", status: "Subiendo" },
+        { name: "Croma Sunrise", rarity: "Godly", value: 2520, demand: "Muy alta", status: "Subiendo" },
+        { name: "Croma sunset", rarity: "Godly", value: 2720, demand: "Muy alta", status: "Subiendo" },
+        { name: "Sun rise", rarity: "Godly", value: 1520, demand: "Muy alta", status: "Subiendo" },
+        { name: "Sun set", rarity: "Godly", value: 1720, demand: "Muy alta", status: "Subiendo" },
+        { name: "Evergreen Gun", rarity: "Godly", value: 4430, demand: "Alta", status: "Estable" },
+        { name: "Snowdagger", rarity: "Godly", value: 1480, demand: "Alta", status: "Estable-Bajando" },
+        { name: "Snowcannon", rarity: "Godly", value: 1470, demand: "Alta", status: "Estable-Bajando" },
+        { name: "Chroma Snowdagger", rarity: "Godly", value: 2520, demand: "Muy alta", status: "Subiendo-Estable" },
+        { name: "Chroma Snowcannon", rarity: "Godly", value: 2500, demand: "Muy alta", status: "Subiendo" },
+        { name: "Alienbeam", rarity: "Godly", value: 1990, demand: "Alta", status: "Estable" },
+        { name: "Chroma Alienbeam", rarity: "Godly", value: 2800, demand: "Alta", status: "Estable" },
+        { name: "Chroma Raygun", rarity: "Godly", value: 2780, demand: "Alta", status: "Subiendo" },
+        { name: "Traveler's Gun", rarity: "Godly", value: 3650, demand: "Alta", status: "Estable" },
+        { name: "Chroma Traveler's Gun", rarity: "Godly", value: 3700, demand: "Alta", status: "Estable" },
+        { name: "Raygun", rarity: "Godly", value: 1780, demand: "Alta", status: "Subiendo" },
+        { name: "Icebreaker", rarity: "Godly", value: 620, demand: "Media", status: "Estable" },
+        { name: "Darkbringer", rarity: "Godly", value: 580, demand: "Alta", status: "Estable" },
+        { name: "Lightbringer", rarity: "Godly", value: 560, demand: "Alta", status: "Estable" },
+        { name: "Elderwood Scythe", rarity: "Godly", value: 520, demand: "Alta", status: "Estable" },
+        { name: "Batwing", rarity: "Godly", value: 480, demand: "Media", status: "Estable" },
+        { name: "Luger", rarity: "Godly", value: 450, demand: "Media", status: "Bajando" },
+        { name: "Blaster", rarity: "Godly", value: 430, demand: "Media", status: "Estable" },
+        { name: "Virtual", rarity: "Godly", value: 400, demand: "Media", status: "Estable" },
+        { name: "Amerilaser", rarity: "Godly", value: 380, demand: "Baja", status: "Estable" },
+        { name: "Heat", rarity: "Godly", value: 350, demand: "Media", status: "Estable" },
+        { name: "Ornament", rarity: "Godly", value: 2520, demand: "Alta", status: "Estable" },
+        { name: "Bauble", rarity: "Godly", value: 2480, demand: "Alta", status: "Estable" },
+        { name: "Darkshoot", rarity: "Godly", value: 1100, demand: "Alta", status: "Estable" },
+        { name: "Darkwood", rarity: "Godly", value: 1200, demand: "Alta", status: "Estable" },
+
+        // GODLIES NUEVAS ENTRE 300 Y 2000
+        { name: "Eternalcane", rarity: "Godly", value: 1500, demand: "Alta", status: "Subiendo" },
+        { name: "Candy", rarity: "Godly", value: 900, demand: "Media", status: "Estable" },
+        { name: "Sugar", rarity: "Godly", value: 700, demand: "Media", status: "Bajando" },
+        { name: "Icebeam", rarity: "Godly", value: 1300, demand: "Alta", status: "Subiendo" },
+        { name: "Swirly Gun", rarity: "Godly", value: 1100, demand: "Media", status: "Estable" },
+        { name: "Swirly Blade", rarity: "Godly", value: 1200, demand: "Alta", status: "Subiendo" },
+        { name: "Hallowgun", rarity: "Godly", value: 600, demand: "Baja", status: "Bajando" },
+        { name: "Ghostblade", rarity: "Godly", value: 500, demand: "Media", status: "Estable" },
+        { name: "Minty", rarity: "Godly", value: 750, demand: "Media", status: "Estable" },
+        { name: "Prismatic", rarity: "Godly", value: 680, demand: "Media", status: "Estable" },
+        { name: "Ice Shard", rarity: "Godly", value: 420, demand: "Baja", status: "Bajando" },
+        { name: "Winters Edge", rarity: "Godly", value: 980, demand: "Alta", status: "Estable" },
+        { name: "Green Luger", rarity: "Godly", value: 1150, demand: "Alta", status: "Subiendo" },
+        { name: "Red Luger", rarity: "Godly", value: 1250, demand: "Muy alta", status: "Subiendo" },
+        { name: "Gingerblade", rarity: "Godly", value: 1350, demand: "Alta", status: "Estable" },
+        { name: "Tides", rarity: "Godly", value: 500, demand: "Media", status: "Estable" },
+        { name: "Boneblade", rarity: "Godly", value: 980, demand: "Alta", status: "Estable" },
+        { name: "Spider", rarity: "Godly", value: 1400, demand: "Alta", status: "Subiendo" },
+        { name: "Fang", rarity: "Godly", value: 1100, demand: "Alta", status: "Estable" },
+        { name: "Shark", rarity: "Godly", value: 1250, demand: "Alta", status: "Estable" }
+    ];
+
+    const tbody = document.querySelector("#valuesTable tbody");
+
+    function cargarTabla() {
+        weapons.sort((a, b) => b.value - a.value);
+        tbody.innerHTML = "";
+        weapons.forEach(w => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${w.name}</td>
+                <td class="rarity ${w.rarity.toLowerCase()}">${w.rarity}</td>
+                <td>${w.value}</td>
+                <td>${w.demand}</td>
+                <td>${w.status}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function buscarArma() {
+        const filtro = document.getElementById("searchInput").value.toLowerCase();
+        Array.from(tbody.rows).forEach(row => {
+            row.style.display = row.cells[0].textContent.toLowerCase().includes(filtro) ? "" : "none";
+        });
+    }
+
+    function actualizarValores() {
+        weapons.forEach(w => {
+            // valores random entre -5% y +5%
+            w.value = Math.round(w.value * (Math.random() * 0.1 + 0.95));
+            if (w.value < 300) w.value = 300;
+            if (w.value > 2000) w.value = 2000;
+        });
+        cargarTabla();
+        alert("Valores actualizados y reordenados");
+    }
+
+    cargarTabla();
+</script>
+
+</body>
+</html>
